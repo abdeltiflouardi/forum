@@ -1,0 +1,50 @@
+<div class="navbar pull-right">
+    <div class="navbar-inner">
+        <ul class="nav">
+            <li{{ selected == 'all' ? ' class="active"' : '' }}>
+                <a href="{{ path('_post') }}">
+                    {{ 'All Questions'|trans }} ({{ render(controller('OSPostBundle:Api:count')) }})
+                </a>
+            </li>
+            {% if menu is not defined %}
+            <li{{ selected == 'popular' ? ' class="active"' : '' }}>
+                <a href="{{ path('_post', {'s': 'p'}) }}">
+                    {{ 'Popular'|trans }} ({{ render(controller('OSPostBundle:Api:countPopular')) }})
+                </a>
+            </li>
+            {% endif %}
+            <li{{ selected == 'myquestions' ? ' class="active"' : '' }}>
+                <a href="{{ path('_post', {'s': 'mq'}) }}">
+                    {{ 'My Questions'|trans }} ({{ render(controller('OSPostBundle:Api:countQuestionsByUser', {'id': app.user.id})) }})
+                </a>
+            </li>
+            <li{{ selected == 'myanswers' ? ' class="active"' : '' }}>
+                <a href="{{ path('_post', {'s': 'ma'}) }}">
+                    {{ 'My Answers'|trans }} ({{ render(controller('OSPostBundle:Api:countAnswersByUser', {'id': app.user.id})) }})
+                </a>
+            </li>
+            <li{{ selected == 'mynetwork' ? ' class="active"' : '' }}>
+                <a href="{{ path('_post', {'s': 'mn'}) }}">
+                    {{ 'My Network'|trans }} ({{ render(controller('OSPostBundle:Api:countMyNetworkByUser', {'id': app.user.id})) }})
+                </a>
+            </li>
+            {% if menu is defined %}
+            <li{{ selected == 'mybookmark' ? ' class="active"' : '' }}>
+                <a href="{{ path('_post', {'s': 'mb'}) }}">
+                    {{ 'My Bookmark'|trans }} ({{ render(controller('OSPostBundle:Api:countBookmarkByUser', {'id': app.user.id})) }})
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+{% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+        <div class="alert alert-{{ type }}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+{% endfor %}

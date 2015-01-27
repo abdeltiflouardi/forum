@@ -1,0 +1,7 @@
+{% if comment is defined and comment is not empty %}
+<div class="span10 pull-right comment-block">
+    <p>{{ comment.user.username }} - {{ comment.createdAt|localizeddate() }}</p>
+    {{ comment.comment|strip_html_tags([], true)|raw }}
+    {{ isLast ? '' : '<hr />' }}
+</div>
+{% endif %}

@@ -1,0 +1,25 @@
+{% extends "OSCommonBundle::layout.html.twig" %}
+
+{% block content %}
+<div class="container">
+    {% include 'OSPostBundle:Partials:_header.html.twig' %}
+
+    <div class="row-fluid well">
+        <div class="span9 pull-left">
+            {% include 'OSPostBundle:Partials:_topbar.html.twig' with {'selected': selected|default('')} %}
+
+            {% set posts = [] %}
+            {% for post in page %}
+                <div class="posts">
+                    {% include 'OSPostBundle:Partials:_post.html.twig' %}
+                </div>
+
+                {% set posts = posts|merge([post.id]) %}
+            {% endfor %}
+
+            {{ pager_pagination(page, 'OSCommonBundle:Pagination:sliding.html.twig')|raw }}            
+        </div>
+        {% include 'OSPostBundle:Partials:_sidebar.html.twig' with {'posts': posts} %}
+    </div>
+</div>
+{% endblock %}

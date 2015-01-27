@@ -1,0 +1,58 @@
+<div class="post row-fluid">
+    {% if shortDisplay is not defined %}
+    <div class="span1">
+        <img src="{{ asset('bundles/oscommon/img/avatar.png') }}" />
+    </div>
+    {% endif %}
+    <div class="{{ shortDisplay is not defined ? 'span11' : 'span12' }}">
+        <div class="row-fluid">
+            {% if shortDisplay is not defined %}
+            {{ post.user.username }}<br />
+            <div class="pull-left">
+                {% include 'OSPostBundle:Partials:_icon_user_score.html.twig' with {'user': post.user} %}
+            </div>
+            <div class="pull-left">
+                &nbsp;{{ post.user.score }}
+            </div>            
+            {% endif %}
+            <div class="clearfix"></div>
+            {% if is_granted("ROLE_MODERATOR") and post.enabled == 0  %}
+            <i class="icon-trash"></i>
+            {% endif %}
+            <a href="{{ path('_post_show', {'id': post.id}) }}">{{ post.title }}</a>
+        </div>
+
+        <div class="row-fluid">
+            {# tags #}
+            <div class="{{ shortDisplay is defined ? 'span7' : 'span6' }} pull-left">
+            {% for tag_id, tag in post.tag %}
+                <a href="{{ path('_post', {'t': tag.name}) }}"><span class="label label-info">{{ tag.name }}</span></a>
+            {% endfor %}
+            </div>
+
+            {% if shortDisplay is not defined %}
+            {# count views #}
+            <div class="span2 pull-right span-block-gray">
+                {{ post.viewCount }}<br />
+                {{ 'Views'|trans }}
+            </div>
+
+            {# answers #}
+            {% set countAnswers = render(controller("OSPostBundle:Api:countAnswers", {'id': post.id})) %}
+            <div class="span2 pull-right{{ countAnswers == 0 ? ' span-block-red' : ' span-block-gray' }}">
+                {{ countAnswers }}<br />
+                {{ 'Answers'|trans }}
+            </div>
+            {% endif %}
+
+            {# timer #}
+            {% set time = post.createdAt|time_ago(false)|lower %}
+            <div class="{{ shortDisplay is defined ? 'span5 span-timer2' : 'span2 span-timer' }} pull-right">
+                {{ time ? time ~ ' ago' : 'now'|trans }}
+            </div>
+        </div>
+    </div>
+</div>
+{% if shortDisplay is not defined %}
+<hr />
+{% endif %}

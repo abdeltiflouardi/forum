@@ -1,0 +1,141 @@
+<div class="span3 pull-right well">
+    <div class="row-fluid text-right">
+        {# Count Of Questions #}
+        <a href="{{ path('_post') }}">
+            {{ render(controller('OSPostBundle:Api:count')) }} {{ 'Questions'|trans }}
+        </a>
+    </div>
+
+    <div class="row-fluid text-right">
+        {# Button New Question #}
+        <a href="{{ path('_post_new') }}" class="btn btn-success">
+            <i class="icon-plus-sign icon-white"></i> {{ 'Create Question'|trans }}
+        </a>
+    </div>
+
+    <hr />
+
+    {# Friends Questions #}
+    {{ 'Friend Question'|trans }}
+    {{ render(controller('OSPostBundle:Default:last')) }}
+    <div class="row-fluid text-right">
+        <a href="{{ path('_post', {'s': 'mn'}) }}">Toutes Questions Du Réseau</a>
+    </div>
+
+    <hr />
+
+    {# Prefered Tags #}
+    {{ 'Prefered Tags'|trans }}
+    (<span id="count-prefered-tags">{{ render(controller('OSPostBundle:Api:countUserTags', {'id': app.user.id})) }}</span>)
+    <br />
+    {% set tags = render(controller('OSPostBundle:Api:userTags', {'id': app.user.id})) %}
+    <div id="prefered-tags">
+    {%- for tag in os.json_decode(tags, true) -%}
+        <a href="{{ path('_post', {'t': tag}) }}"><span class="label label-info">{{ tag }}</span></a>&nbsp;
+    {%- endfor -%}
+    </div>
+
+    <div class="row-fluid text-right">
+        <a href="#add-tag-favorite" role="button" data-toggle="modal">Ajouter une balise aux favoris</a>
+    </div>
+
+    <!-- Modal --> 
+    <div id="add-tag-favorite" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="myModalLabel">Ajouter une balise aux favoris</h3>
+        </div>
+        <div class="modal-body">
+            <label>Balise</label>
+            <input type="text" name="add-tag" id="add-tag" class="add-tag" />
+
+            <span id="add-tag-message" class="hidden"></span>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Fermer</button>
+            <button class="btn btn-primary" id="submit-tag">Ajouter La Balise</button>
+        </div>
+   </div>
+   <hr />
+
+    {# Populated Tags #}
+    {{ 'Populated Tags'|trans }}
+   (<span id="count-prefered-tags">{{ render(controller('OSPostBundle:Api:countPopularTags')) }}</span>)
+   <br />
+    {% set tags = render(controller('OSPostBundle:Api:tagsPopulate')) %}
+    {% for tag in os.json_decode(tags, true) %}
+        <a href="{{ path('_post', {'t': tag}) }}"><span class="label label-info">{{ tag }}</span></a>
+    {% endfor %}
+    <div class="row-fluid text-right">
+        <a href="{{ path('_tag') }}">Voir Toutes les balises</a>
+    </div>
+    <hr />
+
+    <div class="row-fluid">
+        <div class="span8">
+            {{ 'My Questions'|trans }}
+            {{ render(controller('OSPostBundle:Api:countPostsUser', {'id': app.user.id, 'postType': 1})) }}
+        </div>
+
+        <div class="span4">
+            {{ render(controller('OSPostBundle:Api:countUserRating', {'id': app.user.id, 'postType': 1, 'flag': 1})) }}
+            <i class="icon-thumbs-up"></i>
+            <i class="icon-thumbs-down"></i>
+            {{ render(controller('OSPostBundle:Api:countUserRating', {'id': app.user.id, 'postType': 1, 'flag': 0})) }}
+        </div>
+    </div>
+
+    <div class="row-fluid">
+        <div class="span8">
+            {{ 'My Answers'|trans }}
+            {{ render(controller('OSPostBundle:Api:countPostsUser', {'id': app.user.id, 'postType': 2})) }}
+        </div>
+
+        <div class="span4">
+            {{ render(controller('OSPostBundle:Api:countUserRating', {'id': app.user.id, 'postType': 2, 'flag': 1})) }}
+            <i class="icon-thumbs-up"></i>
+            <i class="icon-thumbs-down"></i>
+            {{ render(controller('OSPostBundle:Api:countUserRating', {'id': app.user.id, 'postType': 2, 'flag': 0})) }}
+        </div>
+    </div>
+
+    <hr />
+    <h5>Legend</h5>
+    <div class="row-fluid">
+        <div class="span1"><i class="my-icon my-icon-or2"></i></div>
+        <div class="span11">&nbsp;Maître 2500-1000000pts</div>
+    </div>
+    <div class="row-fluid">
+        <div class="span1"><i class="my-icon my-icon-or"></i></div>
+        <div class="span11">&nbsp;Expert 1000-2499pts</div>
+    </div>
+    <div class="row-fluid">
+        <div class="span1"><i class="my-icon my-icon-silver2"></i></div>
+        <div class="span11">&nbsp;Pro 500-999pts</div>
+    </div>
+    <div class="row-fluid">
+        <div class="span1"><i class="my-icon my-icon-silver"></i></div>
+        <div class="span11">&nbsp;Invité 200-499pts</div>
+    </div>  
+    <div class="row-fluid">
+        <div class="span1"><i class="my-icon my-icon-bronze2"></i></div>
+        <div class="span11">&nbsp;Explorateur 50-199pts</div>
+    </div>
+    <div class="row-fluid">
+        <div class="span1"><i class="my-icon my-icon-bronze"></i></div>
+        <div class="span11">&nbsp;Débutant 0-49pts</div>
+    </div>
+    <hr class="answers-separator" />
+    <div class="row-fluid">
+        <div class="span1"><i class="my-icon my-icon-star"></i></div>
+        <div class="span11">&nbsp;Réponse serviable (5pts)</div>
+    </div>    
+    <div class="row-fluid">
+        <div class="span1"><i class="my-icon my-icon-star2"></i></div>
+        <div class="span11">&nbsp;Réponse correcte (10pts)</div>
+    </div>
+    <div class="row-fluid">
+        <div class="span1"><i class="my-icon my-icon-star"></i></div>
+        <div class="span11">&nbsp;Bonne question (5pts)</div>
+    </div>     
+</div>

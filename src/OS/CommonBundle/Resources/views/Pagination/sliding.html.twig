@@ -1,0 +1,33 @@
+{{ 'Total'|trans }}: 
+{% if nbResults is defined %}
+    {{ nbResults }}
+{% else %}
+        {{ pager.nbResults }} ({{ pager.currentPage ~ '/' ~ pager.nbPages }}) <br />
+        <div class="pagination">
+        <ul>
+        {% if pager.haveToPaginate %}
+            <li{{ pager.currentPage == 1 ? ' class="disabled"' : '' }}>
+                <a href="{{ path ~ 'page=1' }}">{{ 'First'|trans }}</a>
+            </li>
+
+            <li{{ pager.hasPreviousPage ? '' : ' class="disabled"' }}>
+                <a href="{{ pager.hasPreviousPage ? path ~ 'page=' ~ pager.previousPage : '' }}">{{ 'Previous'|trans }}</a>
+            </li>
+
+            {% for page in range %}
+                <li{{ page != pager.currentPage ? '' : ' class="disabled"'}}>
+                    <a href="{{ path ~ 'page=' ~ page }}">{{ page }}</a>
+                </li>
+            {% endfor %}
+
+            <li{{ pager.hasNextPage ? '' : ' class="disabled"' }}>
+                <a href="{{ pager.hasNextPage ? path ~ 'page=' ~ pager.nextPage : '' }}">{{ 'Next'|trans }}</a>
+            </li>
+
+            <li{{ pager.nbPages != pager.currentPage ? '' : ' class="disabled"' }}>
+                <a href="{{ path ~ 'page=' ~ pager.nbPages }}">{{ 'Last'|trans }}</a>
+            </li>
+        {% endif %}
+        </ul>
+    </div>        
+{% endif %}

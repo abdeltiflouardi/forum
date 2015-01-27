@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+
+        <!-- Le styles -->
+        <link href="{{ asset('bundles/oscommon/css/bootstrap-' ~ os.param('styletype') ~ '.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/oscommon/css/datepicker.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/oscommon/css/bootstrap-responsive-' ~ os.param('styletype') ~ '.css') }}" rel="stylesheet">
+        <link href="{{ asset('bundles/oscommon/css/custom.css') }}" rel="stylesheet">
+
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+          <script src="{{ asset('bundles/oscommon/js/html5shiv.js') }}"></script>
+        <![endif]-->
+        {% block style '' %}
+  </head>
+  <body>
+      {% block content "" %}
+      <!-- Le javascript
+      ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <script src="{{ asset('bundles/oscommon/js/jquery.js') }}"></script>
+      <script src="{{ asset('bundles/oscommon/js/bootstrap-transition.js') }}"></script>
+      <script src="{{ asset('bundles/oscommon/js/bootstrap-alert.js') }}"></script>
+      <script src="{{ asset('bundles/oscommon/js/bootstrap-modal.js') }}"></script>
+      <script src="{{ asset('bundles/oscommon/js/bootstrap-dropdown.js') }}"></script>
+      <script src="{{ asset('bundles/oscommon/js/bootstrap-scrollspy.js') }}"></script>
+      <script src="{{ asset('bundles/oscommon/js/bootstrap-tab.js') }}"></script>
+      <script src="{{ asset('bundles/oscommon/js/bootstrap-tooltip.js') }}"></script>
+      <script src="{{ asset('bundles/oscommon/js/bootstrap-popover.js') }}"></script>
+      <script src="{{ asset('bundles/oscommon/js/bootstrap-button.js') }}"></script>
+      <script src="{{ asset('bundles/oscommon/js/bootstrap-collapse.js') }}"></script>
+      <script src="{{ asset('bundles/oscommon/js/bootstrap-carousel.js') }}"></script>
+      <script src="{{ asset('bundles/oscommon/js/bootstrap-typeahead.js') }}"></script>      
+      <script src="{{ asset('bundles/oscommon/js/bootstrap-datepicker.js') }}"></script> 
+      {% block myjs '' %}
+      <script type="text/javascript">
+        $("#submit-tag").click(function () {
+            $('#add-tag-message').html('<i class="icon-spinner icon-spin icon-large"></i> En cours de traitement ...');
+            $('#add-tag-message').removeClass('hidden block-red block-green').addClass('show');
+
+            $.ajax({
+                url: "{{ path('_api_add_tag') }}",
+                data: 'tagname=' + $("#add-tag").val()
+            }).done(function (msg) {
+                var classname;
+                classname = (msg.substring(0, 6) == 'Erreur') ? 'block-red' : 'block-green';
+
+                $('#add-tag-message').removeClass('block-red block-green').addClass(classname);
+                $('#add-tag-message').html(msg);
+
+                if (classname == 'block-green') {
+                    var val = $("#add-tag").val();
+                    var url = "{{ path('_post', {'t': ''}) }}" + val;
+                    var span = $('<span class="label label-info" />');
+                    var a = $('<a />');
+
+                    span.html(val);
+
+                    a.attr('href', url);
+                    a.append(span);
+
+                    $('#prefered-tags').prepend('&nbsp;').prepend(a);
+
+                    var count = parseInt($('#count-prefered-tags').html()) + 1;
+                    $('#count-prefered-tags').html(count.toString());
+                }
+            });
+        });
+        $('#add-tag-favorite').on('hidden', function () {
+            $('#add-tag-message').addClass('hidden');
+        });
+        
+        $('.add-tag').typeahead({
+            source: function (query, process) {
+                $.getJSON(
+                    "{{ path('_api_typeahead_tags') }}",
+                    { tagname: query },
+                    function (data) {
+                        var tags = [];
+
+                        $.each(data, function (i, tag) {
+                            tags.push(tag.toString());
+                        });
+
+                        process(tags);
+                    });
+            },
+            matcher: function (param) {return true;},
+            updater: function (param) {
+                var separator = '';
+                var attr = this.$element.attr('data-separator');
+
+                if (typeof attr !== 'undefined' && attr !== false) {
+                    separator = ', ';
+                } else {
+                    separator = '';
+                }
+
+                if (this.$element.hasClass('input-submit')) {
+                    this.$element[0].value = param;
+                    this.$element[0].form.submit();
+                }
+
+                return this.$element.val().replace(/[^,\s]*$/,'')+param+separator;
+            }
+        });        
+
+        $('#search-question').keyup(function (e) {
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if (code == 13) {
+                $(this).parent('form').submit();
+            }
+        });
+
+        $('#search-question').typeahead({
+            source: function (query, process) {
+                $.getJSON(
+                    "{{ path('_api_typeahead_titles') }}",
+                    { q: query },
+                    function (data) {
+                        var titles = [];
+
+                        $.each(data, function (i, title) {
+                            titles.push(title.toString());
+                        });
+
+                        process(titles);
+                    });
+            },
+            matcher: function (param) {return true;},
+            updater: function (param) {
+                if (this.$element.hasClass('input-submit')) {
+                    this.$element[0].value = param;
+                    this.$element[0].form.submit();
+                }
+
+                return param;
+            }
+        });
+      </script>
+  </body>
+</html>

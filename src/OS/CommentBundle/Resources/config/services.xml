@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="os_comment.form.manager.class">OS\CommentBundle\FormManager\CommentManager</parameter>
+        <parameter key="os_comment.form.handler.class">OS\CommentBundle\FormManager\CommentHandler</parameter>
+        <parameter key="os_comment.form.type.class">OS\CommentBundle\FormManager\CommentType</parameter>
+        <parameter key="os_comment.form.model.class">OS\CommentBundle\FormManager\CommentModel</parameter>
+        <parameter key="os_comment.form.factory.class">OS\CommentBundle\FormManager\CommentFactory</parameter>        
+
+        <parameter key="os_comment.entity.manager.class">OS\CommentBundle\EntityManager\CommentManager</parameter>
+        <parameter key="os_comment.entity.class">OS\CommonBundle\Entity\Comment</parameter>
+
+        <parameter key="os_comment.provider.class">OS\CommentBundle\Provider\CommentProvider</parameter>
+    </parameters>
+
+    <services>
+        <!-- Provider -->
+        <service id="os_comment.provider" class="%os_comment.provider.class%">
+            <argument type="service" id="security.context" />
+        </service>
+
+        <!-- Entities Services -->
+        <service id="os_comment.entity.manager" class="%os_comment.entity.manager.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument>%os_comment.entity.class%</argument>
+        </service>
+
+        <!-- Forms -->
+        <service id="os_comment.form.model" class="%os_comment.form.model.class%">
+            <argument>%os_comment.form.model.class%</argument>     
+            <argument>%os_comment.entity.class%</argument>
+        </service>
+
+        <service id="os_comment.form.type" class="%os_comment.form.type.class%">
+            <tag name="form.type" alias="comment" />
+        </service>     
+
+        <service id="os_comment.form.factory" class="%os_comment.form.factory.class%">
+            <argument type="service" id="form.factory" />
+            <argument type="service" id="os_comment.form.type" />
+            <argument>comment</argument>
+            <argument type="service" id="os_comment.form.model"></argument>            
+        </service>
+
+        <service id="os_comment.form.handler" class="%os_comment.form.handler.class%" scope="request">
+            <argument type="service" id="request" />
+            <argument type="service" id="os_comment.entity.manager" />
+            <argument type="service" id="os_comment.provider" />
+        </service>
+
+        <service id="os_comment.form.manager" class="%os_comment.form.manager.class%" scope="request">
+            <argument type="service" id="os_comment.form.factory" />
+            <argument type="service" id="os_comment.form.handler" />
+        </service>        
+    </services>
+
+</container>

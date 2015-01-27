@@ -1,0 +1,30 @@
+{% extends "OSCommonBundle::layout.html.twig" %}
+
+{% block content %}
+<div class="container">
+    {% include 'OSPostBundle:Partials:_header.html.twig' %}
+
+    <div class="row-fluid well">
+        <div class="span9 pull-left">
+            {% include 'OSPostBundle:Partials:_topbar.html.twig' with {'selected': selected|default('')} %}
+
+            {{ form(form, {'fieldset': true, 'form_legend': 'Add Question'}) }}
+
+            <strong>
+            {{ 'Would you like to have responses to your questions'|trans }}
+            <a href="{{ path('_user_toggle_receive_notification') }}">{{ 'Sent to you via email?' | trans }}</a>
+            </strong>
+
+            <br />
+
+            <a href="{{ path('_post') }}">{{ 'Return to posts list'|trans }}</a>
+        </div>
+
+        {% include 'OSPostBundle:Partials:_sidebar.html.twig' with {'posts': []} %}
+    </div>
+</div>
+{% endblock %}
+
+{% block myjs %}
+    {% include 'OSCommonBundle:Form:tinymce.html.twig' %}
+{% endblock %}

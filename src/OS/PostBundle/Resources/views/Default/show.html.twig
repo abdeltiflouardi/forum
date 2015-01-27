@@ -1,0 +1,85 @@
+{% extends "OSCommonBundle::layout.html.twig" %}
+
+{% block content %}
+<div class="container">
+    {% include 'OSPostBundle:Partials:_header.html.twig' %}
+
+    <div class="row-fluid well">
+        <div class="span9 pull-left">
+            {% include 'OSPostBundle:Partials:_topbar.html.twig' with {'menu': 1, 'selected': selected|default('')} %}
+
+            <div class="row-fluid">
+                <div class="span9">
+                    <strong>{{ post.title }}</strong>
+                </div>
+                <div class="span3 text-right">{{ post.viewCount }} {{ 'Views'|trans }}</div>
+            </div>
+            <div class="clearfix">
+                <hr class="answers-separator" />
+            </div>
+
+            {% include 'OSPostBundle:Partials:_post_or_answer.html.twig' %}
+
+            {% render(controller('OSPostBundle:Default:answers', {'id': post.id}, {'page': app.request.get('page')})) %}
+
+            <hr />
+            {{ form(form_answer) }}
+
+            <a href="{{ path('_post') }}">{{ 'Return to posts list'|trans }}</a>
+        </div>
+
+        {% include 'OSPostBundle:Partials:_sidebar.html.twig' with {'posts': [post.id]} %}
+    </div>
+</div>
+{% endblock %}
+
+{% block myjs %}
+    {% include 'OSCommonBundle:Form:tinymce.html.twig' %}
+
+    <script type="text/javascript">
+        $(".toggle-comment").click(function () {
+            var id = $(this).attr('href');
+            $(id).toggleClass('hidden', 'show');
+
+            return false;
+        });
+
+        $(".comment-list").click(function () {
+            var id = $(this).attr('rel');
+            var url = $(this).attr('href');
+
+            $(id).find('.comment-block').html('');
+            $(id).find('.comment-block :first').html('<i class="icon-spinner icon-spin icon-large"></i> En cours de traitement ...');
+            $.ajax({
+                url: url
+            }).done(function(data) {
+                $(id).html(data);
+            });
+
+            return false;
+        });
+
+        $('[id^=islike]').click(function() {
+            var url = $(this).attr('href');
+            var id = $(this).attr('id');
+
+            $.getJSON(
+                url,
+                {},
+                function (data) {
+                    var postId = id.split('-')[2];
+                    $('#islike-message-'+postId).removeClass('text-red text-green').addClass(data.class);
+                    $('#islike-message-'+postId).html(data.message);
+
+                    var attr = data.count;
+
+                    if (typeof attr !== 'undefined' && attr !== false) {
+                        $('#count-like-' + postId).html(attr);
+                    }
+                }
+            );
+
+            return false;
+        });
+    </script>
+{% endblock %}

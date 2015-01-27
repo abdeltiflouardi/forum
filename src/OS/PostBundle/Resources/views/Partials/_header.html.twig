@@ -1,0 +1,28 @@
+<div class="row-fluid well">
+    <div class="span3 pull-left"><h3>Forum</h3></div>            
+    <div class="span6 pull-left">
+        <form action="{{ path('_post') }}" method="get" id="search-form">
+            <input id="search-question" value="{{ app.request.query.get('q') }}" type="text" name="q" placeholder="Quelle Questions ?" class="input-submit" autocomplete="off" />
+            <input type="text" name="t" class="input-submit add-tag" autocomplete="off" placeholder="Quel Tag ?" />
+        </form>
+    </div>            
+    <div class="span3 pull-right">
+        <div class="btn-group  pull-right">
+            <button class="btn btn-small  btn-primary"><i class="icon-user icon-white"></i>
+                {{ 'Your welcome'|trans }} {{ app.user }}
+            </button>
+            <button class="btn btn-small  btn-primary dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="#"><i class="icon-folder-open"></i> {{ 'Account'|trans }}</a></li>
+                <li class="divider"></li>
+                <li>
+                    <a href="{{ path('fos_user_security_logout') }}">
+                        <i class="icon-off"></i> {{ 'Logout'|trans }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

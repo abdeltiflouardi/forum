@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="os_post.form.manager.class">OS\PostBundle\FormManager\PostManager</parameter>
+        <parameter key="os_post.form.handler.class">OS\PostBundle\FormManager\PostHandler</parameter>
+        <parameter key="os_post.form.type.class">OS\PostBundle\FormManager\PostType</parameter>
+        <parameter key="os_post.form.tag_type.class">OS\PostBundle\FormManager\TagType</parameter>
+        <parameter key="os_post.form.model.class">OS\PostBundle\FormManager\PostModel</parameter>
+        <parameter key="os_post.form.factory.class">OS\PostBundle\FormManager\PostFactory</parameter>
+
+        <parameter key="os_post.entity.manager.class">OS\PostBundle\EntityManager\PostManager</parameter>
+        <parameter key="os_post.entity.class">OS\CommonBundle\Entity\Post</parameter>
+        <parameter key="os_tag.entity.manager.class">OS\PostBundle\EntityManager\TagManager</parameter>
+        <parameter key="os_tag.entity.class">OS\CommonBundle\Entity\Tag</parameter>
+
+        <parameter key="os_post.provider.class">OS\PostBundle\Provider\PostProvider</parameter>
+    </parameters>
+
+    <services>
+        <!-- Provider -->
+        <service id="os_post.provider" class="%os_post.provider.class%">
+            <argument type="service" id="security.context" />
+        </service>
+
+        <!-- Entities Services -->
+        <service id="os_post.entity.manager" class="%os_post.entity.manager.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument>%os_post.entity.class%</argument>
+        </service>
+        <service id="os_tag.entity.manager" class="%os_tag.entity.manager.class%">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument>%os_tag.entity.class%</argument>
+        </service>
+
+        <!-- Forms -->
+        <service id="os_post.form.model" class="%os_post.form.model.class%">
+            <argument>%os_post.form.model.class%</argument>     
+            <argument>%os_post.entity.class%</argument>
+        </service>
+
+        <service id="os_post.form.type" class="%os_post.form.type.class%">
+            <tag name="form.type" alias="post" />
+        </service>
+
+        <service id="os_post.form.tag_type" class="%os_post.form.tag_type.class%">
+            <tag name="form.type" alias="tag" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>        
+
+        <service id="os_post.form.factory" class="%os_post.form.factory.class%">
+            <argument type="service" id="form.factory" />
+            <argument type="service" id="os_post.form.type" />
+            <argument>post</argument>
+            <argument type="service" id="os_post.form.model"></argument>            
+        </service>
+
+        <service id="os_post.form.handler" class="%os_post.form.handler.class%" scope="request">
+            <argument type="service" id="request" />
+            <argument type="service" id="os_post.entity.manager" />
+            <argument type="service" id="os_post.provider" />
+        </service>
+
+        <service id="os_post.form.manager" class="%os_post.form.manager.class%" scope="request">
+            <argument type="service" id="os_post.form.factory" />
+            <argument type="service" id="os_post.form.handler" />
+        </service>
+
+    </services>
+
+</container>

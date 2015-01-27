@@ -1,0 +1,15 @@
+<div class="answers-title">
+    <strong>{{ page.nbResults }} {{ 'Answers'|trans }}</strong>
+</div>
+
+<hr class="answers-separator" />
+
+<div class="answers">
+    {% for post in page %}
+        {% include 'OSPostBundle:Partials:_post_or_answer.html.twig' %}
+
+         <hr />
+    {% endfor %}
+
+    {{ pager_pagination(page, 'OSCommonBundle:Pagination:sliding.html.twig')|raw }}
+</div>

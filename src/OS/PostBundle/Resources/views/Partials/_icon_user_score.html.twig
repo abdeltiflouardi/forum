@@ -1,0 +1,13 @@
+{% if user.score <= 49  %}
+<i class="my-icon my-icon-bronze"></i>
+{% elseif user.score <= 199 %}
+<i class="my-icon my-icon-bronze2"></i>
+{% elseif user.score <= 499 %}
+<i class="my-icon my-icon-silver"></i>
+{% elseif user.score <= 999 %}
+<i class="my-icon my-icon-silver2"></i>
+{% elseif user.score <= 2499 %}
+<i class="my-icon my-icon-or"></i>
+{% elseif user.score <= 1000000 %}
+<i class="my-icon my-icon-or2"></i>
+{% endif %}

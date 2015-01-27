@@ -1,0 +1,178 @@
+body {
+    padding: 0px;
+}
+
+/* Custom container */
+.container {
+    margin: 0 auto;
+    max-width: 1000px;
+}
+.container > hr {
+    margin: 60px 0;
+}
+
+.table-striped tbody > tr:nth-child(odd) > td,
+.table-striped tbody > tr:nth-child(odd) > th {
+    background-color: #ececec;
+}
+/* Customize the navbar links to be fill the entire space of the .navbar */
+.span-timer {
+    font-size: 11px;
+    line-height: 28px;
+    margin-bottom: -10px;
+    margin-top: 30px;
+    text-align: right;
+    vertical-align: bottom;
+}
+
+.span-timer2 {
+    font-size: 11px;
+    text-align: right;
+}
+
+.span-block-gray
+{
+    background-color: #ccc;
+    font-size: 12px;
+    padding: 5px 0;
+    text-align: center;
+}
+
+.tag-block-gray
+{
+    background-color: #ccc;
+    font-size: 12px;
+    padding: 5px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.span-block-red {
+    font-size: 12px;
+    padding: 5px 0;
+    text-align: center;
+    color: #d14;
+    background-color: #ddd;
+}
+
+.block-red {
+    font-size: 12px;
+    padding: 5px;
+    color: #d14;
+    background-color: #ddd;
+    width: 100%;
+    display: block;
+}
+
+.text-red {
+    color: red;
+}
+
+.text-green {
+    color: green;
+}
+
+.block-green {
+    font-size: 12px;
+    padding: 5px;
+    color: #569500;
+    background-color: #ddd;
+    width: 100%;
+    display: block;
+}
+
+.answers-separator {
+    margin: 5px 0;
+}
+
+.answers-title {
+    margin-top: 30px;
+}
+
+.form-signin {
+  max-width: 300px;
+  padding: 19px 29px 29px;
+  margin: 0 auto 20px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+          box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin input[type="text"],
+.form-signin input[type="password"] {
+  font-size: 16px;
+  height: auto;
+  margin-bottom: 15px;
+  padding: 7px 9px;
+}
+
+.row-rating {
+  border: 1px solid #CCCCCC;
+  padding: 10px 0 0;
+  text-align: center;
+}
+
+.span-rating {
+  border: 1px solid #CCCCCC;
+  margin-right: -2px;
+  margin-top: -1px;
+  padding: 9px 19px 6px 3px;
+  text-align: center;
+}
+
+.span-rating-down {
+   padding: 9px 19px 6px 3px;
+}
+
+.span-rating-up {
+  padding: 9px 18px 6px 3px;
+}
+
+.my-icon {
+    background: url("../img/sprite.png") 0 0 no-repeat;
+    display: block;
+    height: 16px;
+    width: 16px;
+}
+.my-icon-or {
+    background-position: 0 0;
+}
+.my-icon-or2 {
+    background-position: -48px 0;
+}
+.my-icon-bronze {
+    background-position: -16px 0;
+}
+.my-icon-bronze2 {
+    background-position: -64px 0;
+}
+.my-icon-silver {
+    background-position: -32px 0;
+}
+.my-icon-silver2 {
+    background-position: -80px 0;
+}
+.my-icon-star {
+    background-position: -16px -16px;
+}
+.my-icon-star2 {
+    background-position: 0 -16px;
+}
+.my-icon-star-gray {
+    background-position: -32px -16px;
+}
+.modal-body { overflow: visible; } .modal-footer { position: relative; z-index: 1; }
+
+.comment-block {
+    padding: 5px;
+    background-color: #eee;
+    color: #999;
+}

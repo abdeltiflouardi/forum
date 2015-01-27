@@ -1,0 +1,3 @@
+{% for comment in comments %}
+    {% include 'OSCommentBundle:Partials:_comment_item.html.twig' with {'isLast': loop.last} %}
+{% endfor %}

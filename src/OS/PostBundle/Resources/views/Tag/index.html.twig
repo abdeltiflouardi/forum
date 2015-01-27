@@ -1,0 +1,23 @@
+{% extends "OSCommonBundle::layout.html.twig" %}
+
+{% block content %}
+<div class="container">
+    {% include 'OSPostBundle:Partials:_header.html.twig' %}
+
+    <div class="row-fluid well">
+        <div class="span9 pull-left">
+            {% include 'OSPostBundle:Partials:_topbar.html.twig' with {'selected': selected|default('')} %}
+
+            {% for tag in page %}
+                <div class="span2 tag-block-gray">
+                    <a href="{{ path('_post', {'t': tag.name}) }}">{{ tag.name }}</a>
+                </div>
+            {% endfor %}
+
+             <div class="clearfix"></div>
+            {{ pager_pagination(page, 'OSCommonBundle:Pagination:sliding.html.twig')|raw }}
+        </div>
+        {% include 'OSPostBundle:Partials:_sidebar.html.twig' with {'posts': []} %}
+    </div>
+</div>
+{% endblock %}

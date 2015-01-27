@@ -1,0 +1,9 @@
+<script src="{{ asset('bundles/oscommon/js/tinymce/tinymce.min.js') }}"></script>
+<script type="text/javascript">
+tinymce.init({
+    selector: "{{ selector|default('textarea') }}",
+    menubar: false,
+    toolbar_items_size: 'small',
+    statusbar : false
+ });
+</script>

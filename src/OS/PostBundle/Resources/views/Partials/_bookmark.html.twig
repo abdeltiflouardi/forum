@@ -1,0 +1,13 @@
+{% if post.postType.id == 1 %}
+<div class="row-fluid">
+    {% if post.bookmarkedBy.contains(app.user) %}
+        <a href="{{ path('_post_bookmark_remove', {'id': post.id}) }}">
+            <i class="my-icon my-icon-star"></i>
+        </a>
+    {% else %}
+        <a href="{{ path('_post_bookmark_add', {'id': post.id}) }}">
+            <i class="my-icon my-icon-star-gray"></i>
+        </a>
+    {% endif %}
+</div>
+{% endif %}

@@ -1,0 +1,29 @@
+{% if post.postType.id == 2 %}
+<div id="comments-{{ post.id }}" class="row-fluid">
+    {% set last = render(controller('OSCommentBundle:Api:last', {'id': post.id})) %}
+    {{ last|raw }}
+</div>
+
+<div class="row-fluid">
+    <div class="span10 pull-right">
+        <div class="span6">
+            {% if last %}
+            <a href="{{ path("_api_post_comments", {'id': post.id}) }}" class="comment-list" rel="#comments-{{ post.id }}">
+                Voir tous les commentaires
+            </a>
+            {% else %}
+                &nbsp;
+            {% endif %}
+        </div>
+        <div class="span6 text-right">
+            <a href="#input-comment-{{ post.id }}" class="toggle-comment">Je commente</a>
+        </div>
+    </div>
+</div>
+
+<div id="input-comment-{{ post.id }}" class="row-fluid hidden">
+    <div class="span10 pull-right">
+    {{ render(controller('OSCommentBundle:Default:new', {'id': post.id})) }}
+    </div>
+</div>
+{% endif %}
